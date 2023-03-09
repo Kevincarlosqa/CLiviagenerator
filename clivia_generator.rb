@@ -48,9 +48,8 @@ class CliviaGenerator
       answers.shuffle!.each_with_index do|answer,index|
         puts "#{index+1}. #{answer}"
       end
-      print "> "
-      input = gets.chomp.to_i
-      p answers[input-1]
+      compare_answer(answers, correct_answer)
+     
     # ask each question
     # if response is correct, put a correct message and increase score
     # if response is incorrect, put an incorrect message, and which was the correct answer
@@ -87,6 +86,21 @@ class CliviaGenerator
     options.map do |option|
       decoder.decode(option)
     end
+  end
+
+  def compare_answer(answers, correct_answer)
+    print "> "
+    input = gets.chomp.to_i
+    chosen_answer = answers[input-1]
+    if chosen_answer == correct_answer
+      puts "#{chosen_answer}... Correct!"
+      puts "-"*60
+    else
+      puts "#{chosen_answer}... Incorrect!"
+      puts "The correct answer was: #{correct_answer}"
+      puts "-"*60
+    end
+
   end
 
   def parse_questions

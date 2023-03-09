@@ -1,14 +1,1 @@
-[
-  {
-    "name": "deyvi",
-    "score": 40
-  },
-  {
-    "name": "diego",
-    "score": 60
-  },
-  {
-    "name": "wences",
-    "score": 30
-  }
-]
+[{"name":"deyvi","score":40},{"name":"diego","score":60},{"name":"wences","score":30},{"name":"kev","score":0},{"name":"kevin","score":30}]

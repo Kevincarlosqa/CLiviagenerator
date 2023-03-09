@@ -36,9 +36,11 @@ class CliviaGenerator
     data.each do |datos|
       counter += 1 if ask_questions(datos)
     end
-    puts "Well done! Your score is #{counter*10}".green.bold
+    score = counter*10
+    puts "Well done! Your score is #{score}".green.bold
     puts "-"*60
-    ask_safe_score
+    save_score(score) if ask_safe_score == "Y"
+    
     print welcome.blue
     # load the questions from the api
     # questions are loaded, then let's ask them
@@ -55,6 +57,29 @@ class CliviaGenerator
     end
     opcion
   end
+  def save_score(score)
+    puts "Type the name to assign to the score"
+    print "> "
+    input = gets.chomp
+    if input.empty?
+      input = "Anonymous"
+    else
+      input
+    end
+    new_score = {name: input, score: score}
+    parse_score = JSON.parse(File.read("scores.json"))
+    parse_score << new_score
+    File.write("scores.json",parse_score.to_json)
+  end
+
+  def print_scores
+    # print the scores sorted from top to bottom
+    scores = parse_scores
+    scores_table(scores)
+    print welcome.blue
+    
+  end
+
   def ask_questions(data)
       puts "Category: #{data[:category]} | Difficulty: #{data[:difficulty]}".colorize(:blue).bold
       question = decode(data[:question])
@@ -149,14 +174,7 @@ class CliviaGenerator
     # questions came with an unexpected structure, clean them to make it usable for our purposes
   end
 
-  def print_scores
-    # print the scores sorted from top to bottom
-    scores = parse_scores
-    scores_table(scores)
-    print welcome.blue
-    
-  end
-
+  
   def welcome
     wel = "Welcome to Clivia Generator".bold
     welcome =<<-DELIMETER

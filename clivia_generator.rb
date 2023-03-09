@@ -24,6 +24,7 @@ class CliviaGenerator
       when "random" then random_trivia
       when "scores" then print_scores
       when "exit" 
+        puts "Made with \u2665 by Kevin"
         puts "Thanks for using CLIvia"
         action
       end
@@ -92,11 +93,6 @@ class CliviaGenerator
         puts "#{index+1}. #{answer}"
       end
       compare_answer(answers, correct_answer) 
-     
-    # ask each question
-    # if response is correct, put a correct message and increase score
-    # if response is incorrect, put an incorrect message, and which was the correct answer
-    # once the questions end, show user's score and promp to save it
   end
   def ask_safe_score
     puts "Do you want to save your score? (y/n)"
@@ -128,6 +124,13 @@ class CliviaGenerator
     end
     score_sort = score.sort_by {|score| -score[1].to_i}
     table.rows = score_sort
+    table.style = {
+      border_i: '+',
+      padding_left: 3,
+      padding_right: 3
+
+    }
+    table.align_column(2, :right)
     puts table
   end
   def load_questions
@@ -159,21 +162,16 @@ class CliviaGenerator
     input = gets.chomp.to_i
     chosen_answer = answers[input-1]
     if chosen_answer == correct_answer
-      puts "#{chosen_answer}... Correct!".green
+      puts "\u2713 #{chosen_answer}... Correct!".green
       puts "-"*60
       true
     else
-      puts "#{chosen_answer}... Incorrect!".red
+      puts "\u2717 #{chosen_answer}... Incorrect!".red
       puts "The correct answer was: #{correct_answer}"
       puts "-"*60
       false
     end
   end
-
-  def parse_questions
-    # questions came with an unexpected structure, clean them to make it usable for our purposes
-  end
-
   
   def welcome
     wel = "Welcome to Clivia Generator".bold

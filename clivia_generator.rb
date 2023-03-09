@@ -3,6 +3,7 @@
 require "json"
 require "httparty"
 require "terminal-table"
+require "htmlentities"
 class CliviaGenerator
   include HTTParty
   base_uri("https://opentdb.com/api.php?amount=10&")
@@ -28,12 +29,21 @@ class CliviaGenerator
   end
 
   def random_trivia
-    load_questions
+    data = load_questions
+    data.each do |datos|
+    ask_questions(datos)
+    end
     # load the questions from the api
     # questions are loaded, then let's ask them
   end
 
-  def ask_questions
+  def ask_questions(data)
+      puts "Category: #{data[:category]} | Difficulty: #{data[:difficulty]}"
+      question = decode(data[:question])
+      puts "Question: #{question}"
+      p data[:incorrect_answers]
+      p decode(data[:correct_answer])
+      p decode_options(data[:incorrect_answers])
     # ask each question
     # if response is correct, put a correct message and increase score
     # if response is incorrect, put an incorrect message, and which was the correct answer
@@ -51,17 +61,25 @@ class CliviaGenerator
   def load_questions
     token = get_token
     response = self.class.get("/token=#{token}")
-    p token
-    pp response
-
-    # token=YOURTOKENHERE
-
-
+    response = JSON.parse(response.body, symbolize_names:true)
+    response[:results]
   end
   def get_token
     response = self.class.get("https://opentdb.com/api_token.php?command=request")
     response = JSON.parse(response.body, symbolize_names:true)
     response[:token]
+  end
+
+  def decode(string)
+    decoder = HTMLEntities.new
+    decoder.decode(string)
+  end
+
+  def decode_options(options)
+    decoder = HTMLEntities.new
+    options.map do |option|
+      decoder.decode(option)
+    end
   end
 
   def parse_questions

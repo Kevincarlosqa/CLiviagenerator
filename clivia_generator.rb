@@ -10,6 +10,14 @@ class CliviaGenerator
 
   def start
     # welcome message
+    puts welcome
+    action = menu
+    p action
+    case action
+    when "random"
+    when "scores"
+    when "exit"
+    end
     # prompt the user for an action
     # keep going until the user types exit
   end
@@ -46,4 +54,39 @@ class CliviaGenerator
   def print_scores
     # print the scores sorted from top to bottom
   end
+
+  def welcome
+    welcome =<<-DELIMETER
+###################################
+#   Welcome to Clivia Generator   #
+###################################
+    DELIMETER
+  end
+
+  def menu
+    puts "random | scores | exit"
+    opciones = ["random", "scores", "exit"]
+    loop do
+      print "> "
+      opcion = gets.chomp
+      return opcion if opcion.nil? || opciones.include?(opcion)
+      puts "Invalid Option"
+     
+    end
+    opcion
+  end
+
+  # def error_message(input)
+    
+  #   loop do
+  #     input = gets.chomp
+     
+  #     break if opciones.include?(input)
+  #   end
+  #   input
+  # end
+
 end
+
+neu = CliviaGenerator.new
+neu.start

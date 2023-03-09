@@ -14,7 +14,6 @@ module Presenter
     opcion = " "
     loop do
       print "> "
-      # binding.pry
       opcion = gets.chomp
       break if opciones.include?(opcion)
 
@@ -29,7 +28,7 @@ module Presenter
     input = ""
     loop do
       input = gets.chomp.upcase
-      break if input == "Y" || input == "N"
+      break if ["Y", "N"].include?(input)
 
       puts "Invalid option"
       print "> "

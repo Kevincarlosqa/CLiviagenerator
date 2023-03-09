@@ -1,12 +1,11 @@
 module Presenter
-
   def welcome
     wel = "Welcome to Clivia Generator".bold
-    welcome =<<-DELIMETER
-###################################
-#   #{wel}   #
-###################################
-DELIMETER
+    <<~DELIMETER
+      ###################################
+      #   #{wel}   #
+      ###################################
+    DELIMETER
   end
 
   def menu_options
@@ -18,6 +17,7 @@ DELIMETER
       # binding.pry
       opcion = gets.chomp
       break if opciones.include?(opcion)
+
       puts "Invalid Option"
     end
     opcion
@@ -30,13 +30,10 @@ DELIMETER
     loop do
       input = gets.chomp.upcase
       break if input == "Y" || input == "N"
+
       puts "Invalid option"
       print "> "
     end
     input
-  end
-
-  def print_score(score)
-    # print the score message
   end
 end

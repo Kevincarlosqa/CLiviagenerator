@@ -1,20 +1,22 @@
 require_relative "clivia_generator"
 require "json"
-dato1, dato2 = ARGV
+file1, _file2 = ARGV
 ARGV.clear
-# p dato1
-if dato1.nil?
+directorio = Dir.entries(__dir__)
+archivos_json = directorio.select { |direc| direc.end_with?(".json") }
+if file1.nil?
   filename = "scores.json"
+elsif archivos_json.include?(file1)
+  filename = file1
 else
-  # filename = dato1
   data = []
+  File.write(file1, JSON.generate(data))
+  filename = file1
+end
 # begin
-  File.write(dato1, JSON.generate(data))
-  filename = dato1
 # rescue Errno::ENOENT => error
 #   puts error.message
 # end
-end
 # if ARGV.empty?
 #   filename = "scores.json"
 # else
@@ -24,7 +26,5 @@ end
 #   filename = first
 # end
 # p filename
-
-
 trivia = CliviaGenerator.new(filename)
 trivia.start

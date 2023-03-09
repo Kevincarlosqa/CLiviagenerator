@@ -26,7 +26,7 @@ class CliviaGenerator
       case action
       when "random" then random_trivia
       when "scores" then print_scores
-      when "exit" 
+      when "exit"
         puts "Made with \u2665 by Kevin"
         puts "Thanks for using CLIvia"
         action
@@ -40,9 +40,9 @@ class CliviaGenerator
     data.each do |datos|
       counter += 1 if ask_questions(datos)
     end
-    score = counter*10
+    score = counter * 10
     puts "Well done! Your score is #{score}".green.bold
-    puts "-"*60
+    puts "-" * 60
     save_score(score) if ask_safe_score == "Y"
     print welcome.blue
   end
@@ -56,10 +56,10 @@ class CliviaGenerator
     else
       input
     end
-    new_score = {name: input, score: score}
+    new_score = { name: input, score: score }
     parse_score = JSON.parse(File.read(@filename))
     parse_score << new_score
-    File.write(@filename,parse_score.to_json)
+    File.write(@filename, parse_score.to_json)
   end
 
   def print_scores
@@ -71,15 +71,15 @@ class CliviaGenerator
   def scores_table(scores)
     table = Terminal::Table.new
     table.title = "Top Scores".blue.bold
-    table.headings = ["Name".blue.italic,"Score".blue.italic]
+    table.headings = ["Name".blue.italic, "Score".blue.italic]
     score = []
     scores.each do |scor|
-      score << [scor[:name].capitalize,scor[:score]]
+      score << [scor[:name].capitalize, scor[:score]]
     end
-    score_sort = score.sort_by {|score| -score[1].to_i}
+    score_sort = score.sort_by { |scor| -scor[1].to_i }
     table.rows = score_sort
     table.style = {
-      border_i: '+',
+      border_i: "+",
       padding_left: 3,
       padding_right: 3
     }

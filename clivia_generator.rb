@@ -11,8 +11,9 @@ class CliviaGenerator
   base_uri("https://opentdb.com/api.php?amount=10&")
   # maybe we need to include a couple of modules?
 
-  def initialize
-    # we need to initialize a couple of properties here
+  def initialize(filename)
+    @filename = filename
+    p @filename
   end
 
   def start
@@ -68,9 +69,9 @@ class CliviaGenerator
       input
     end
     new_score = {name: input, score: score}
-    parse_score = JSON.parse(File.read("scores.json"))
+    parse_score = JSON.parse(File.read(@filename))
     parse_score << new_score
-    File.write("scores.json",parse_score.to_json)
+    File.write(@filename,parse_score.to_json)
   end
 
   def print_scores
@@ -106,12 +107,9 @@ class CliviaGenerator
     end
     input
   end
-  def save(data)
-    # write to file the scores data
-  end
 
   def parse_scores
-    res = JSON.parse(File.read("scores.json"), symbolize_names:true)
+    res = JSON.parse(File.read(@filename), symbolize_names:true)
   end
 
   def scores_table(scores)
@@ -187,5 +185,5 @@ end
 
 # neu = CliviaGenerator.new
 # neu.start
-trivia = CliviaGenerator.new
-trivia.start
+# trivia = CliviaGenerator.new
+# trivia.start

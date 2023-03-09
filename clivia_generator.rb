@@ -4,6 +4,7 @@ require "json"
 require "httparty"
 require "terminal-table"
 require "htmlentities"
+require "colorize"
 class CliviaGenerator
   include HTTParty
   base_uri("https://opentdb.com/api.php?amount=10&")
@@ -14,7 +15,7 @@ class CliviaGenerator
   end
 
   def start
-    puts welcome
+    puts welcome.blue
     action = ""
     until action == "exit"
       action = menu_options
@@ -36,14 +37,15 @@ class CliviaGenerator
     end
     puts "Well done! Your score is #{counter*10}" 
     puts "-"*60
+    ask_safe_score
     # load the questions from the api
     # questions are loaded, then let's ask them
   end
 
   def ask_questions(data)
-      puts "Category: #{data[:category]} | Difficulty: #{data[:difficulty]}"
+      puts "Category: #{data[:category]} | Difficulty: #{data[:difficulty]}".colorize(:blue).bold
       question = decode(data[:question])
-      puts "Question: #{question}"
+      puts "Question: #{question}".bold
       answers = []
       correct_answer = decode(data[:correct_answer])
       answers << correct_answer
@@ -58,7 +60,18 @@ class CliviaGenerator
     # if response is incorrect, put an incorrect message, and which was the correct answer
     # once the questions end, show user's score and promp to save it
   end
-
+  def ask_safe_score
+    puts "Do you want to save your score? (y/n)"
+    print "> "
+    input = ""
+    loop do
+      input = gets.chomp.upcase
+      break if input == "Y" || input == "N"
+      puts "Invalid option"
+      print "> "
+    end
+    input
+  end
   def save(data)
     # write to file the scores data
   end
@@ -96,11 +109,11 @@ class CliviaGenerator
     input = gets.chomp.to_i
     chosen_answer = answers[input-1]
     if chosen_answer == correct_answer
-      puts "#{chosen_answer}... Correct!"
+      puts "#{chosen_answer}... Correct!".green
       puts "-"*60
       true
     else
-      puts "#{chosen_answer}... Incorrect!"
+      puts "#{chosen_answer}... Incorrect!".red
       puts "The correct answer was: #{correct_answer}"
       puts "-"*60
       false
@@ -113,6 +126,7 @@ class CliviaGenerator
 
   def print_scores
     # print the scores sorted from top to bottom
+    
   end
 
   def welcome

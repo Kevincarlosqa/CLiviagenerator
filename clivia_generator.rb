@@ -95,13 +95,14 @@ class CliviaGenerator
 
   def scores_table(scores)
     table = Terminal::Table.new
-    table.title = "Top Scores"
-    table.headings = ["Name","Score"]
+    table.title = "Top Scores".blue.bold
+    table.headings = ["Name".blue.italic,"Score".blue.italic]
     score = []
     scores.each do |scor|
       score << [scor[:name].capitalize,scor[:score]]
     end
-    table.rows = score
+    score_sort = score.sort_by {|score| -score[1].to_i}
+    table.rows = score_sort
     puts table
   end
   def load_questions

@@ -40,7 +40,7 @@ module Handler
 
   def compare_answer(answers, correct_answer)
     print "> "
-    input = gets.chomp.to_i
+    input = number_answer(answers)
     chosen_answer = answers[input - 1]
     if chosen_answer == correct_answer
       puts "\u2713 #{chosen_answer}... Correct!".green
@@ -52,6 +52,19 @@ module Handler
       puts "-" * 60
       false
     end
+  end
+
+  def number_answer(answers)
+    limit = answers.size
+    opcion = nil
+    loop do
+      opcion = gets.chomp.to_i
+      break if (1..limit).include?(opcion)
+
+      puts "Invalid Option"
+      print "> "
+    end
+    opcion
   end
 
   def parse_scores

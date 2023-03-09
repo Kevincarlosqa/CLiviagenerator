@@ -1,7 +1,11 @@
 # do not forget to require your gem dependencies
 # do not forget to require_relative your local dependencies
-
+require "json"
+require "httparty"
+require "terminal-table"
 class CliviaGenerator
+  include HTTParty
+  base_uri("https://opentdb.com/api.php?amount=10&")
   # maybe we need to include a couple of modules?
 
   def initialize
@@ -9,20 +13,22 @@ class CliviaGenerator
   end
 
   def start
-    # welcome message
     puts welcome
-    action = menu
-    p action
-    case action
-    when "random"
-    when "scores"
-    when "exit"
+    action = ""
+    until action == "exit"
+      action = menu_options
+      case action
+      when "random" then random_trivia
+      when "scores" then print_scores
+      when "exit" 
+        puts "Thanks for using CLIvia"
+        action
+      end
     end
-    # prompt the user for an action
-    # keep going until the user types exit
   end
 
   def random_trivia
+    load_questions
     # load the questions from the api
     # questions are loaded, then let's ask them
   end
@@ -43,8 +49,19 @@ class CliviaGenerator
   end
 
   def load_questions
-    # ask the api for a random set of questions
-    # then parse the questions
+    token = get_token
+    response = self.class.get("/token=#{token}")
+    p token
+    pp response
+
+    # token=YOURTOKENHERE
+
+
+  end
+  def get_token
+    response = self.class.get("https://opentdb.com/api_token.php?command=request")
+    response = JSON.parse(response.body, symbolize_names:true)
+    response[:token]
   end
 
   def parse_questions
@@ -63,7 +80,7 @@ class CliviaGenerator
     DELIMETER
   end
 
-  def menu
+  def menu_options
     puts "random | scores | exit"
     opciones = ["random", "scores", "exit"]
     loop do
@@ -71,21 +88,9 @@ class CliviaGenerator
       opcion = gets.chomp
       return opcion if opcion.nil? || opciones.include?(opcion)
       puts "Invalid Option"
-     
     end
     opcion
   end
-
-  # def error_message(input)
-    
-  #   loop do
-  #     input = gets.chomp
-     
-  #     break if opciones.include?(input)
-  #   end
-  #   input
-  # end
-
 end
 
 neu = CliviaGenerator.new

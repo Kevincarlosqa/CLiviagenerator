@@ -3,6 +3,7 @@ require "httparty"
 require "terminal-table"
 require "htmlentities"
 require "colorize"
+require "pry"
 require_relative "presenter"
 require_relative "handler"
 
@@ -12,7 +13,6 @@ class CliviaGenerator
   include Handler
 
   base_uri("https://opentdb.com/api.php?amount=10&")
-  # maybe we need to include a couple of modules?
 
   def initialize(filename)
     @filename = filename

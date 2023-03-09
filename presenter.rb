@@ -15,6 +15,7 @@ DELIMETER
     opcion = " "
     loop do
       print "> "
+      # binding.pry
       opcion = gets.chomp
       break if opciones.include?(opcion)
       puts "Invalid Option"

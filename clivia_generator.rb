@@ -41,9 +41,16 @@ class CliviaGenerator
       puts "Category: #{data[:category]} | Difficulty: #{data[:difficulty]}"
       question = decode(data[:question])
       puts "Question: #{question}"
-      p data[:incorrect_answers]
-      p decode(data[:correct_answer])
-      p decode_options(data[:incorrect_answers])
+      answers = []
+      correct_answer = decode(data[:correct_answer])
+      answers << correct_answer
+      decode_options(data[:incorrect_answers]).each {|ans| answers << ans}
+      answers.shuffle!.each_with_index do|answer,index|
+        puts "#{index+1}. #{answer}"
+      end
+      print "> "
+      input = gets.chomp.to_i
+      p answers[input-1]
     # ask each question
     # if response is correct, put a correct message and increase score
     # if response is incorrect, put an incorrect message, and which was the correct answer

@@ -5,6 +5,7 @@ require "httparty"
 require "terminal-table"
 require "htmlentities"
 require "colorize"
+
 class CliviaGenerator
   include HTTParty
   base_uri("https://opentdb.com/api.php?amount=10&")
@@ -15,7 +16,7 @@ class CliviaGenerator
   end
 
   def start
-    puts welcome.blue
+    print welcome.blue
     action = ""
     until action == "exit"
       action = menu_options
@@ -35,13 +36,25 @@ class CliviaGenerator
     data.each do |datos|
       counter += 1 if ask_questions(datos)
     end
-    puts "Well done! Your score is #{counter*10}" 
+    puts "Well done! Your score is #{counter*10}".green.bold
     puts "-"*60
     ask_safe_score
+    print welcome.blue
     # load the questions from the api
     # questions are loaded, then let's ask them
   end
-
+  def menu_options
+    puts "random | scores | exit"
+    opciones = ["random", "scores", "exit"]
+    opcion = " "
+    loop do
+      print "> "
+      opcion = gets.chomp
+      break if opcion.nil? || opciones.include?(opcion)
+      puts "Invalid Option"
+    end
+    opcion
+  end
   def ask_questions(data)
       puts "Category: #{data[:category]} | Difficulty: #{data[:difficulty]}".colorize(:blue).bold
       question = decode(data[:question])
@@ -77,9 +90,20 @@ class CliviaGenerator
   end
 
   def parse_scores
-    # get the scores data from file
+    res = JSON.parse(File.read("scores.json"), symbolize_names:true)
   end
 
+  def scores_table(scores)
+    table = Terminal::Table.new
+    table.title = "Top Scores"
+    table.headings = ["Name","Score"]
+    score = []
+    scores.each do |scor|
+      score << [scor[:name].capitalize,scor[:score]]
+    end
+    table.rows = score
+    puts table
+  end
   def load_questions
     token = get_token
     response = self.class.get("/token=#{token}")
@@ -126,29 +150,25 @@ class CliviaGenerator
 
   def print_scores
     # print the scores sorted from top to bottom
+    scores = parse_scores
+    scores_table(scores)
+    print welcome.blue
     
   end
 
   def welcome
+    wel = "Welcome to Clivia Generator".bold
     welcome =<<-DELIMETER
 ###################################
-#   Welcome to Clivia Generator   #
+#   #{wel}   #
 ###################################
-    DELIMETER
+DELIMETER
   end
 
-  def menu_options
-    puts "random | scores | exit"
-    opciones = ["random", "scores", "exit"]
-    loop do
-      print "> "
-      opcion = gets.chomp
-      return opcion if opcion.nil? || opciones.include?(opcion)
-      puts "Invalid Option"
-    end
-    opcion
-  end
+  
 end
 
-neu = CliviaGenerator.new
-neu.start
+# neu = CliviaGenerator.new
+# neu.start
+trivia = CliviaGenerator.new
+trivia.start

@@ -30,9 +30,12 @@ class CliviaGenerator
 
   def random_trivia
     data = load_questions
+    counter = 0
     data.each do |datos|
-    ask_questions(datos)
+      counter += 1 if ask_questions(datos)
     end
+    puts "Well done! Your score is #{counter*10}" 
+    puts "-"*60
     # load the questions from the api
     # questions are loaded, then let's ask them
   end
@@ -48,7 +51,7 @@ class CliviaGenerator
       answers.shuffle!.each_with_index do|answer,index|
         puts "#{index+1}. #{answer}"
       end
-      compare_answer(answers, correct_answer)
+      compare_answer(answers, correct_answer) 
      
     # ask each question
     # if response is correct, put a correct message and increase score
@@ -95,12 +98,13 @@ class CliviaGenerator
     if chosen_answer == correct_answer
       puts "#{chosen_answer}... Correct!"
       puts "-"*60
+      true
     else
       puts "#{chosen_answer}... Incorrect!"
       puts "The correct answer was: #{correct_answer}"
       puts "-"*60
+      false
     end
-
   end
 
   def parse_questions

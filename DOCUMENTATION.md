@@ -1,5 +1,103 @@
+
+
 # CLIvia generator
-by
+
+CLIvia generator is an amazing application to measure your level solving trivia and your knowledge of the world in general.
+
+## Installation
+
+To use this project, you need to have Ruby 2.7 or higher installed on your computer. To install the app, follow these steps:
+
+- Clone this repository on your computer.
+- In the terminal, navigate to the project folder.
+- Run the `bundle install` command to install the necessary gems.
+- Run the `ruby main.rb` command to start the application.
+- Additionall you can pass a custom
+filename as a command-line argument. For example
+```bash
+ruby main.rb custom_score.json
+```
+## Usage
+
+When you start CLIvia generator you will have three options: random, scores and exit.
+
+**Random**: By choosing the `random` option, the application will load 10 random questions, which will be answered one by one by entering the answer number.
+
+```
+###################################
+#   Welcome to Clivia Generator   #
+###################################
+random | scores | exit
+> random
+Category: Entertainment: Video Games | Difficulty: medium
+Question: In the "Halo" franchise, in what country is New Mombasa?
+1. India
+2. Turkey
+3. Kenya
+4. Slovakia
+> 1
+```
+**Scores**: When you type `scores`, it will show the scores table 
+```
+...
+###################################
+#   Welcome to Clivia Generator   #
+###################################
+random | scores | exit
+> scores
++---------------------------+
+|        Top Scores         |
++---------------+-----------+
+|   Name        |   Score   |
++---------------+-----------+
+|   Kevin       |      60   |
+|   Deyvi       |      40   |
+|   Anonymous   |      40   |
+|   Kevin       |      10   |
++---------------+-----------+
+###################################
+#   Welcome to Clivia Generator   #
+###################################
+random | scores | exit
+> 
+```
+**Exit**: When you type `exit`, the application will close
+```
+###################################
+#   Welcome to Clivia Generator   #
+###################################
+random | scores | exit
+> exit
+Made with ♥ by Kevin
+Thanks for using CLIvia
+```
+
+## Contribution
+
+This project is open to contributions. If you want to contribute, follow these steps:
+
+- Make a clone of the repository.
+- Create a new branch with the name of your contribution.
+- Make your changes and make sure everything works correctly.
+- Submit a pull request with your changes.
+
+Feel free to contribute and improve this app.
+
+## License
+ This project is distributed under the **MIT** license. You can find more information in the webpage https://choosealicense.com/licenses/mit/ .
+
+ ## Development team
+ This project was created by Kevin Quispe
+  - Email: kevincarlosqa@gmail.com
+  - GitHub: https://github.com/Kevincarlosqa
+
+## Contact
+If you have questions or comments about the project, you can contact us in the Issues section of the repository. 
+
+We look forward to your comments!
+
+
+
 ## Start the program
 
 When the program starts, we will initialize the scores filename, the array of
@@ -168,19 +266,19 @@ they can keep going with another Clivia.
 ###################################
 random | scores | exit
 > scores
-+-----------+-------+
-|    Top Scores     |
-+-----------+-------+
-| Name      | Score |
-+-----------+-------+
-| Deyvi     | 40    |
-| Diego     | 40    |
-| Wences    | 30    |
-| Anonymous | 20    |
-+-----------+-------+
++---------------------------+
+|        Top Scores         |
++---------------+-----------+
+|   Name        |   Score   |
++---------------+-----------+
+|   Kevin       |      60   |
+|   Deyvi       |      40   |
+|   Anonymous   |      40   |
+|   Kevin       |      10   |
++---------------+-----------+
 ###################################
 #   Welcome to Clivia Generator   #
 ###################################
 random | scores | exit
->
+> 
 ```
